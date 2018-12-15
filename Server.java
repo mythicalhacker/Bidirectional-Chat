@@ -1,0 +1,29 @@
+import java.io.*;
+import java.net.*;
+public class Server {
+  public static void main(String[] args) {
+    //System.out.println("Hello");
+    try {
+      ServerSocket ss = new ServerSocket(4300);
+      Socket s = ss.accept();
+      DataInputStream din = new DataInputStream(s.getInputStream());
+      DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+      BufferedReader br  = new BufferedReader(new InputStreamReader(System.in));
+      String str = "",str2 ="";
+      System.out.println("\n              Server Side     ");
+      while (!str.equals("stop")) {
+        str = din.readUTF();
+        System.out.println("Client Says::" +str);
+        str2 = br.readLine();
+        dout.writeUTF(str2);
+        dout.flush();
+      }
+      din.close();
+      s.close();
+      ss.close();
+
+    }catch(Exception e) {
+      System.out.println(e);
+    }
+  }
+}
